@@ -9,7 +9,10 @@ public class TireForce : MonoBehaviour, ITire, IInputUpdate
     private SpringAndDamper spring;
     private Rigidbody rb;
     public TireData tire;
-    public float power;
+    public float motorPower;
+    public float brakeForce;
+    public float brakeFactor;
+    public float motorFactor;
     public float minVel = 0.001f;
     public bool test;
     public float radsPerSecond;
@@ -20,8 +23,8 @@ public class TireForce : MonoBehaviour, ITire, IInputUpdate
     private float forwardForce;
     private float lateralForce;
     private float rollingTorque;
-    public float accelFactor;
-    public float decelFactor;
+    private float throttle;
+    private float brake;
 
     private void Awake()
     {
@@ -34,7 +37,8 @@ public class TireForce : MonoBehaviour, ITire, IInputUpdate
     }
     public void InputUpdate()
     {
-        accelFactor = inputs.myInputs.Base.Vertical.ReadValue<float>();
+        throttle = inputs.myInputs.Base.Throttle.ReadValue<float>();
+        brake = inputs.myInputs.Base.Brake.ReadValue<float>();
     }
 
     private float GetRollingTorque(float forwardForce)
@@ -49,10 +53,12 @@ public class TireForce : MonoBehaviour, ITire, IInputUpdate
         return myTorque;// + FeedbackTorque;
     }
 
+
     public void PhysicsUpdate()
     {
-        accelFactor = Mathf.Clamp(accelFactor, -1, 1);
-        radsPerSecond += accelFactor * power * Time.deltaTime;
+        var inertia = tire.mass * Mathf.Pow(tire.radius, 2);
+        radsPerSecond += motorPower * Mathf.Pow(throttle, motorFactor) / inertia * Time.deltaTime;
+        radsPerSecond += brakeForce * Mathf.Pow(brake, brakeFactor) / inertia * Time.deltaTime * -Mathf.Sign(radsPerSecond);
 
         if (spring.IsGrounded)
         {
@@ -64,7 +70,6 @@ public class TireForce : MonoBehaviour, ITire, IInputUpdate
             forwardForce = tire.GetForwardForce(forwardSlip, spring.springLoad);
             lateralForce = tire.GetLateralForce(lateralSlip, spring.springLoad);
             rollingTorque = GetRollingTorque(forwardForce);
-            var inertia = tire.mass * Mathf.Pow(tire.radius, 2);
             var angle = rollingTorque / inertia;
             radsPerSecond += (angle * Time.deltaTime);
         }
@@ -81,6 +86,7 @@ public class TireForce : MonoBehaviour, ITire, IInputUpdate
         if (test)
         {
             forwardForce = 0;
+            lateralForce = 0;
         }
 
         //accelFactor -= decelFactor * Time.deltaTime;
@@ -90,10 +96,10 @@ public class TireForce : MonoBehaviour, ITire, IInputUpdate
         var forcePoint = spring.hitPoint - (spring.transform.up * tire.radius);
         rb.AddForceAtPosition(forwardForce * transform.forward, forcePoint, ForceMode.Force);
         rb.AddForceAtPosition(lateralForce * transform.right, forcePoint, ForceMode.Force);
-        if (spring.IsGrounded && spring.lastHitRb)
+        if (spring.IsGrounded && spring.LastHitRb)
         {
-            spring.lastHitRb.AddForceAtPosition(-forwardForce * transform.forward, spring.hitPoint);
-            spring.lastHitRb.AddForceAtPosition(-lateralForce * transform.right, spring.hitPoint);
+            spring.LastHitRb.AddForceAtPosition(-forwardForce * transform.forward, spring.hitPoint);
+            spring.LastHitRb.AddForceAtPosition(-lateralForce * transform.right, spring.hitPoint);
         }
     }
 

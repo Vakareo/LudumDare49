@@ -45,24 +45,24 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0.006500244
-      inSlope: 11.612333
-      outSlope: 11.612333
+      inSlope: 7.34102
+      outSlope: 7.34102
       tangentMode: 0
       weightedMode: 3
       inWeight: 0
-      outWeight: 0.12190122
+      outWeight: 0.18550614
     - serializedVersion: 3
       time: 1.0013428
       value: 0.9
-      inSlope: -0.013683396
-      outSlope: -0.013683396
+      inSlope: -0.013343689
+      outSlope: -0.013343689
       tangentMode: 0
       weightedMode: 3
-      inWeight: 1
+      inWeight: 0.8376702
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   idealLoad: 3000
-  maxForwardForce: 1600
-  maxLateralForce: 1000
+  maxForwardForce: 2400
+  maxLateralForce: 2000

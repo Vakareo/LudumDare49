@@ -24,6 +24,10 @@ public class VehicleManager : MonoBehaviour
         }
         for (int i = 0; i < springs.Length; i++)
         {
+            springs[i].HitUpdate();
+        }
+        for (int i = 0; i < springs.Length; i++)
+        {
             springs[i].PhysicsUpdate();
         }
         for (int i = 0; i < tires.Length; i++)

@@ -6,11 +6,11 @@ using UnityEngine;
 public class CenterOfGravityOverride : MonoBehaviour
 {
     public Transform centerOfGravity;
-    public bool enabled;
+    public bool comEnabled;
 
     private void Awake()
     {
-        if (enabled)
+        if (comEnabled)
             GetComponent<Rigidbody>().centerOfMass = centerOfGravity.position;
     }
 

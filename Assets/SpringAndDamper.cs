@@ -26,10 +26,15 @@ public class SpringAndDamper : MonoBehaviour, ICarSpring
 
     public float springLoad { get; private set; }
 
-    public Rigidbody lastHitRb;
+    public Rigidbody LastHitRb { get; private set; }
 
 
     private RaycastHit hit;
+    private float antiRollForce;
+    [SerializeField] SpringAndDamper pairWheel;
+    public bool antiRollActive;
+    public float maxFlex;
+    public float antiRollStiffness;
 
     private void Awake()
     {
@@ -53,35 +58,48 @@ public class SpringAndDamper : MonoBehaviour, ICarSpring
 
     public void HitUpdate()
     {
-
-    }
-
-
-    public void PhysicsUpdate()
-    {
-
         if (Physics.Raycast(transform.position, -transform.up, out hit, GetMaxDistance(), layerMask))
         {
             IsGrounded = true;
             CurrentHitDistance = hit.distance;
             velocity = (lastHitDistance - CurrentHitDistance) / Time.deltaTime;
             hitPoint = hit.point;
-            springForce = transform.up * Mathf.Max(GetSpringForce(GetSpringDisplacement(CurrentHitDistance)) + GetDamper(velocity), 0);
-            if (hit.rigidbody)
-            {
-                hit.rigidbody.AddForceAtPosition(-springForce, hitPoint);
 
-            }
-            lastHitRb = hit.rigidbody;
         }
         else
         {
             IsGrounded = false;
             CurrentHitDistance = maxHeight;
-            springForce = Vector3.zero;
+
         }
 
         lastHitDistance = CurrentHitDistance;
+    }
+    public void PhysicsUpdate()
+    {
+        if (pairWheel && antiRollActive)
+        {
+            var difference = Mathf.Clamp(pairWheel.CurrentHitDistance - CurrentHitDistance, -maxFlex, maxFlex) / maxFlex;
+            antiRollForce = antiRollStiffness * difference;
+        }
+        else
+        {
+            antiRollForce = 0;
+        }
+        if (IsGrounded)
+        {
+            springForce = transform.up * Mathf.Max(GetSpringForce(GetSpringDisplacement(CurrentHitDistance)) + GetDamper(velocity) + antiRollForce, 0);
+            if (hit.rigidbody)
+            {
+                hit.rigidbody.AddForceAtPosition(-springForce, hitPoint);
+            }
+            LastHitRb = hit.rigidbody;
+        }
+        else
+        {
+            springForce = Vector3.zero;
+        }
+
         springLoad = springForce.magnitude;
     }
 

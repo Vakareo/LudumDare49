@@ -33,6 +33,22 @@ public class @MyInputs : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Analog"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Throttle"",
+                    ""type"": ""Value"",
+                    ""id"": ""5b85340d-d96a-49c1-9a7a-693519409157"",
+                    ""expectedControlType"": ""Analog"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Brake"",
+                    ""type"": ""Value"",
+                    ""id"": ""ac17a38b-1ffb-457f-ad19-47263477252b"",
+                    ""expectedControlType"": ""Analog"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -167,6 +183,50 @@ public class @MyInputs : IInputActionCollection, IDisposable
                     ""action"": ""Horizontal"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e5cb6e87-2938-4388-a587-232f440fac58"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Throttle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ae455f80-3f0b-4217-ade5-b4a74d673a2d"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Throttle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4a7257bf-46cb-4e14-88ac-4e63ee45ac04"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Brake"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0be5522f-bb7d-4e74-ab9c-2c1567ed9b17"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Brake"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -177,6 +237,8 @@ public class @MyInputs : IInputActionCollection, IDisposable
         m_Base = asset.FindActionMap("Base", throwIfNotFound: true);
         m_Base_Vertical = m_Base.FindAction("Vertical", throwIfNotFound: true);
         m_Base_Horizontal = m_Base.FindAction("Horizontal", throwIfNotFound: true);
+        m_Base_Throttle = m_Base.FindAction("Throttle", throwIfNotFound: true);
+        m_Base_Brake = m_Base.FindAction("Brake", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -228,12 +290,16 @@ public class @MyInputs : IInputActionCollection, IDisposable
     private IBaseActions m_BaseActionsCallbackInterface;
     private readonly InputAction m_Base_Vertical;
     private readonly InputAction m_Base_Horizontal;
+    private readonly InputAction m_Base_Throttle;
+    private readonly InputAction m_Base_Brake;
     public struct BaseActions
     {
         private @MyInputs m_Wrapper;
         public BaseActions(@MyInputs wrapper) { m_Wrapper = wrapper; }
         public InputAction @Vertical => m_Wrapper.m_Base_Vertical;
         public InputAction @Horizontal => m_Wrapper.m_Base_Horizontal;
+        public InputAction @Throttle => m_Wrapper.m_Base_Throttle;
+        public InputAction @Brake => m_Wrapper.m_Base_Brake;
         public InputActionMap Get() { return m_Wrapper.m_Base; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -249,6 +315,12 @@ public class @MyInputs : IInputActionCollection, IDisposable
                 @Horizontal.started -= m_Wrapper.m_BaseActionsCallbackInterface.OnHorizontal;
                 @Horizontal.performed -= m_Wrapper.m_BaseActionsCallbackInterface.OnHorizontal;
                 @Horizontal.canceled -= m_Wrapper.m_BaseActionsCallbackInterface.OnHorizontal;
+                @Throttle.started -= m_Wrapper.m_BaseActionsCallbackInterface.OnThrottle;
+                @Throttle.performed -= m_Wrapper.m_BaseActionsCallbackInterface.OnThrottle;
+                @Throttle.canceled -= m_Wrapper.m_BaseActionsCallbackInterface.OnThrottle;
+                @Brake.started -= m_Wrapper.m_BaseActionsCallbackInterface.OnBrake;
+                @Brake.performed -= m_Wrapper.m_BaseActionsCallbackInterface.OnBrake;
+                @Brake.canceled -= m_Wrapper.m_BaseActionsCallbackInterface.OnBrake;
             }
             m_Wrapper.m_BaseActionsCallbackInterface = instance;
             if (instance != null)
@@ -259,6 +331,12 @@ public class @MyInputs : IInputActionCollection, IDisposable
                 @Horizontal.started += instance.OnHorizontal;
                 @Horizontal.performed += instance.OnHorizontal;
                 @Horizontal.canceled += instance.OnHorizontal;
+                @Throttle.started += instance.OnThrottle;
+                @Throttle.performed += instance.OnThrottle;
+                @Throttle.canceled += instance.OnThrottle;
+                @Brake.started += instance.OnBrake;
+                @Brake.performed += instance.OnBrake;
+                @Brake.canceled += instance.OnBrake;
             }
         }
     }
@@ -267,5 +345,7 @@ public class @MyInputs : IInputActionCollection, IDisposable
     {
         void OnVertical(InputAction.CallbackContext context);
         void OnHorizontal(InputAction.CallbackContext context);
+        void OnThrottle(InputAction.CallbackContext context);
+        void OnBrake(InputAction.CallbackContext context);
     }
 }
