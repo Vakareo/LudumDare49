@@ -8,8 +8,6 @@ public class Glider : MonoBehaviour
 {
     public Transform leftWing;
     public Transform rightWing;
-    public float yawForce = 1.1f;
-    public float rollForce = 1.1f;
 
     public float damper = 1500f;
     public float scaledTorque = 20f;
@@ -34,7 +32,6 @@ public class Glider : MonoBehaviour
     private Vector3 initialLeftWingPos;
     private Vector3 initialRightWingPos;
     private float lastYawAngle;
-    public float turnRate = 2f;
 
     private void Awake()
     {
