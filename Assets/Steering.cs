@@ -8,6 +8,7 @@ public class Steering : MonoBehaviour, IInputUpdate
     public float maxAngle = 35;
     public Transform rightWheel;
     public Transform leftWheel;
+    public float steerPower = 1f;
 
     public bool hasSpeedLimit = false;
     public float speedLimit = 8f;
@@ -25,6 +26,7 @@ public class Steering : MonoBehaviour, IInputUpdate
     public void InputUpdate()
     {
         steer = input.myInputs.Base.Horizontal.ReadValue<float>();
+        steer = Mathf.Sign(steer) * Mathf.Pow(Mathf.Abs(steer), steerPower);
     }
 
     public void UpdateSteering()

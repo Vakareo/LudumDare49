@@ -8,29 +8,53 @@ public class UnstableCore : MonoBehaviour
     public float falloff = 1f;
     [Range(0, 2000)]
     public float maxRange = 200f;
-    private UnstableItem[] items;
+    public float UpdateRate = 0.5f;
+    private UnstableItem[] unstables;
     private Player[] players;
+
+
+    private WaitForSeconds wait;
+
+    private void OnValidate()
+    {
+        wait = new WaitForSeconds(1f / UpdateRate);
+    }
 
 
     private void Start()
     {
-        items = FindObjectsOfType<UnstableItem>();
+        unstables = FindObjectsOfType<UnstableItem>();
         players = FindObjectsOfType<Player>();
+        StartCoroutine(UpdateDirection());
+    }
+
+    IEnumerator UpdateDirection()
+    {
+        while (true)
+        {
+            UpdateDirectionsOnObjects();
+            yield return wait;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
     }
 
     private void Update()
     {
-        for (int i = 0; i < items.Length; i++)
+        for (int i = 0; i < unstables.Length; i++)
         {
-            var distance = GetDistance(items[i].transform.position);
+            var distance = GetDistance(unstables[i].transform.position);
             if (distance <= maxRange)
             {
                 var value = Mathf.Pow(distance / maxRange, falloff);
-                items[i].ApplyInstability(value);
+                unstables[i].ApplyInstability(value);
             }
             else
             {
-                items[i].ApplyInstability(1f);
+                unstables[i].ApplyInstability(1f);
             }
         }
     }
@@ -51,6 +75,13 @@ public class UnstableCore : MonoBehaviour
             }
         }
 
+    }
+    private void UpdateDirectionsOnObjects()
+    {
+        for (int i = 0; i < unstables.Length; i++)
+        {
+            unstables[i].UpdateDirection();
+        }
     }
 
     private float GetDistance(Vector3 position)

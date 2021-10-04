@@ -7,6 +7,7 @@ public class CubeSpawner : MonoBehaviour
 {
     public int count;
     public float maxRange = 50;
+    public float maxHeight = 50;
     public float maxScale = 5;
     public float minScale = 1;
     public GameObject prefab;
@@ -16,7 +17,7 @@ public class CubeSpawner : MonoBehaviour
     {
         for (int i = 0; i < count; i++)
         {
-            var position = new Vector3(Random.Range(-maxRange, maxRange), transform.position.y, Random.Range(-maxRange, maxRange));
+            var position = new Vector3(transform.position.x + Random.Range(-maxRange, maxRange), transform.position.y + Random.Range(-maxHeight, maxHeight), transform.position.z + Random.Range(-maxRange, maxRange));
             var obj = Instantiate(prefab, position, Quaternion.identity, transform);
             obj.transform.localScale *= Random.Range(minScale, maxScale);
             obj.GetComponent<Renderer>().material = materials[Random.Range(0, materials.Length - 1)];

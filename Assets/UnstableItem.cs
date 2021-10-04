@@ -2,16 +2,31 @@ using UnityEngine;
 
 public class UnstableItem : MonoBehaviour
 {
-    public float maxShakeValue = 1f;
-    private Vector3 intialPosition;
-    private void Awake()
-    {
-        intialPosition = transform.position;
-    }
+    public float maxShakeSpeed = 5f;
+    public float maxRotateSpeed = 90f;
+    private Vector3 direction;
+    private int directionCount;
+
     public void ApplyInstability(float value)
     {
-        var shake = maxShakeValue - (maxShakeValue * value);
-        var direction = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
-        transform.position = intialPosition + direction * shake;
+        var shake = maxShakeSpeed - (maxShakeSpeed * value);
+        var rotate = maxRotateSpeed - (maxRotateSpeed * value);
+
+
+        transform.position += direction * shake;
+        transform.eulerAngles += direction * rotate;
+    }
+
+    internal void UpdateDirection()
+    {
+        directionCount++;
+        if ((directionCount & 1) == 1)
+        {
+            direction = -direction;
+        }
+        else
+        {
+            direction = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
+        }
     }
 }
