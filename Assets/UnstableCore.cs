@@ -6,7 +6,7 @@ public class UnstableCore : MonoBehaviour
 {
     [Range(0.2f, 4f)]
     public float falloff = 1f;
-    [Range(0, 2000)]
+    [Range(0, 10000)]
     public float maxRange = 200f;
     public float UpdateRate = 0.5f;
     private UnstableItem[] unstables;
@@ -14,6 +14,7 @@ public class UnstableCore : MonoBehaviour
 
 
     private WaitForSeconds wait;
+    private float rate = 5f;
 
     private void OnValidate()
     {
@@ -44,6 +45,7 @@ public class UnstableCore : MonoBehaviour
 
     private void Update()
     {
+        maxRange += rate * Time.deltaTime;
         for (int i = 0; i < unstables.Length; i++)
         {
             var distance = GetDistance(unstables[i].transform.position);

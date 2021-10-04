@@ -38,10 +38,15 @@ public class SpringAndDamper : MonoBehaviour, ICarSpring
     public bool antiRollActive;
     public float maxFlex;
     public float antiRollStiffness;
+    public bool parent;
 
     private void Awake()
     {
         rb = transform.root.GetComponent<Rigidbody>();
+        if (parent)
+        {
+            rb = transform.parent.GetComponent<Rigidbody>();
+        }
     }
 
     private float GetSpringDisplacement(float hitDistance)

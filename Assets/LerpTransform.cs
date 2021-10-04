@@ -29,7 +29,7 @@ public class LerpTransform : MonoBehaviour
     public void SetValue(float value)
     {
         transform.localPosition = Vector3.Lerp(initialPosition, ToPosition, value);
-        transform.localEulerAngles = Vector3.Slerp(initialRotation, ToRotation, value);
+        transform.localEulerAngles = Vector3.Lerp(initialRotation, ToRotation, value);
     }
 
 

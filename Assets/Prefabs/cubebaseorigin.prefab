@@ -108,5 +108,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d310a4a85177bc8439781dc300f8b4e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxShakeSpeed: 3
-  maxRotateSpeed: 90
+  maxShakeSpeed: 5
+  maxRotateSpeed: 300

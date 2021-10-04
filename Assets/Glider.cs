@@ -14,7 +14,7 @@ public class Glider : MonoBehaviour
     public float scaledTorque = 20f;
     [Range(0, 300)]
     public float maxLiftSpeed = 120f;
-    public bool glide = true;
+    public bool glide = false;
 
     private Rigidbody rb;
 
@@ -35,19 +35,30 @@ public class Glider : MonoBehaviour
     private float lastYawAngle;
     public float brakeScale = 2f;
     private float liftFactor;
+    public float maxVel = 10f;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         inputs = FindObjectOfType<MyInputsObject>();
         SetWings();
+
     }
     private void OnEnable()
     {
         inputs.myInputs.Base.ToggleGlide.performed += ToggleGlide;
+
+    }
+    private void Start()
+    {
+        ToggleGlideNoEvent();
     }
 
     private void ToggleGlide(InputAction.CallbackContext obj)
+    {
+        ToggleGlideNoEvent();
+    }
+    private void ToggleGlideNoEvent()
     {
         glide = !glide;
         SetWings();
@@ -88,6 +99,9 @@ public class Glider : MonoBehaviour
         var rollVelocity = (lastRollAngle - rollAngle) / Time.deltaTime;
         var pitchVelocity = (lastPitchAngle - pitchAngle) / Time.deltaTime;
         var yawVelocity = (lastYawAngle - yawAngle) / Time.deltaTime;
+        yawVelocity = Mathf.Clamp(yawVelocity, -maxVel, maxVel);
+        rollVelocity = Mathf.Clamp(rollVelocity, -maxVel, maxVel);
+        pitchVelocity = Mathf.Clamp(pitchVelocity, -maxVel, maxVel);
         liftFactor = 0;
 
         if (glide)

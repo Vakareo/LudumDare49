@@ -65,6 +65,22 @@ public class @MyInputs : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""SetSpawn"",
+                    ""type"": ""Button"",
+                    ""id"": ""fbb5dea2-f885-438c-8283-5c7740c0d610"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Spawn"",
+                    ""type"": ""Button"",
+                    ""id"": ""95fe02dd-72d8-47fe-b890-8e094ff5d8f7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -298,6 +314,39 @@ public class @MyInputs : IInputActionCollection, IDisposable
                     ""action"": ""ToggleGlide"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""620456c2-0c54-46e3-b0ff-5a4adadff121"",
+                    ""path"": ""<Keyboard>/numpadDivide"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SetSpawn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b49170d0-ba2e-4362-b5cc-61eb1c6458ce"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Spawn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""90a9d302-fe70-4b76-b154-606a0b80f353"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Spawn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -312,6 +361,8 @@ public class @MyInputs : IInputActionCollection, IDisposable
         m_Base_Brake = m_Base.FindAction("Brake", throwIfNotFound: true);
         m_Base_Pitch = m_Base.FindAction("Pitch", throwIfNotFound: true);
         m_Base_ToggleGlide = m_Base.FindAction("ToggleGlide", throwIfNotFound: true);
+        m_Base_SetSpawn = m_Base.FindAction("SetSpawn", throwIfNotFound: true);
+        m_Base_Spawn = m_Base.FindAction("Spawn", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -367,6 +418,8 @@ public class @MyInputs : IInputActionCollection, IDisposable
     private readonly InputAction m_Base_Brake;
     private readonly InputAction m_Base_Pitch;
     private readonly InputAction m_Base_ToggleGlide;
+    private readonly InputAction m_Base_SetSpawn;
+    private readonly InputAction m_Base_Spawn;
     public struct BaseActions
     {
         private @MyInputs m_Wrapper;
@@ -377,6 +430,8 @@ public class @MyInputs : IInputActionCollection, IDisposable
         public InputAction @Brake => m_Wrapper.m_Base_Brake;
         public InputAction @Pitch => m_Wrapper.m_Base_Pitch;
         public InputAction @ToggleGlide => m_Wrapper.m_Base_ToggleGlide;
+        public InputAction @SetSpawn => m_Wrapper.m_Base_SetSpawn;
+        public InputAction @Spawn => m_Wrapper.m_Base_Spawn;
         public InputActionMap Get() { return m_Wrapper.m_Base; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -404,6 +459,12 @@ public class @MyInputs : IInputActionCollection, IDisposable
                 @ToggleGlide.started -= m_Wrapper.m_BaseActionsCallbackInterface.OnToggleGlide;
                 @ToggleGlide.performed -= m_Wrapper.m_BaseActionsCallbackInterface.OnToggleGlide;
                 @ToggleGlide.canceled -= m_Wrapper.m_BaseActionsCallbackInterface.OnToggleGlide;
+                @SetSpawn.started -= m_Wrapper.m_BaseActionsCallbackInterface.OnSetSpawn;
+                @SetSpawn.performed -= m_Wrapper.m_BaseActionsCallbackInterface.OnSetSpawn;
+                @SetSpawn.canceled -= m_Wrapper.m_BaseActionsCallbackInterface.OnSetSpawn;
+                @Spawn.started -= m_Wrapper.m_BaseActionsCallbackInterface.OnSpawn;
+                @Spawn.performed -= m_Wrapper.m_BaseActionsCallbackInterface.OnSpawn;
+                @Spawn.canceled -= m_Wrapper.m_BaseActionsCallbackInterface.OnSpawn;
             }
             m_Wrapper.m_BaseActionsCallbackInterface = instance;
             if (instance != null)
@@ -426,6 +487,12 @@ public class @MyInputs : IInputActionCollection, IDisposable
                 @ToggleGlide.started += instance.OnToggleGlide;
                 @ToggleGlide.performed += instance.OnToggleGlide;
                 @ToggleGlide.canceled += instance.OnToggleGlide;
+                @SetSpawn.started += instance.OnSetSpawn;
+                @SetSpawn.performed += instance.OnSetSpawn;
+                @SetSpawn.canceled += instance.OnSetSpawn;
+                @Spawn.started += instance.OnSpawn;
+                @Spawn.performed += instance.OnSpawn;
+                @Spawn.canceled += instance.OnSpawn;
             }
         }
     }
@@ -438,5 +505,7 @@ public class @MyInputs : IInputActionCollection, IDisposable
         void OnBrake(InputAction.CallbackContext context);
         void OnPitch(InputAction.CallbackContext context);
         void OnToggleGlide(InputAction.CallbackContext context);
+        void OnSetSpawn(InputAction.CallbackContext context);
+        void OnSpawn(InputAction.CallbackContext context);
     }
 }

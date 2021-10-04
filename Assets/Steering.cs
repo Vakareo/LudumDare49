@@ -9,7 +9,7 @@ public class Steering : MonoBehaviour, IInputUpdate
     public Transform rightWheel;
     public Transform leftWheel;
     public float steerPower = 1f;
-
+    public float turnRate = 90f;
     public bool hasSpeedLimit = false;
     public float speedLimit = 8f;
     private Rigidbody rb;
@@ -31,7 +31,16 @@ public class Steering : MonoBehaviour, IInputUpdate
 
     public void UpdateSteering()
     {
-        currentAngle = steer * maxAngle;
+        currentAngle = steer * maxAngle * turnRate * Time.deltaTime;
+        if (steer == 0 && currentAngle != 0)
+        {
+            var oldSign = Mathf.Sign(currentAngle);
+            currentAngle = -oldSign * maxAngle * turnRate * Time.deltaTime;
+            if (Mathf.Sign(currentAngle) != oldSign)
+            {
+                currentAngle = 0;
+            }
+        }
         if (hasSpeedLimit)
         {
             var speed = Vector3.Dot(rb.velocity, rb.transform.forward);

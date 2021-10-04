@@ -81,16 +81,23 @@ public class TireForce : MonoBehaviour, ITire, IInputUpdate
             }
         }
 
-        radsPerSecond += newBrakeForce * Mathf.Pow(brake, brakeFactor) / inertia * Time.deltaTime * -oldSign;
+        if (brake > 0.3f && throttle > 0.3f)
+        {
+            radsPerSecond -= (motorPower * 2) * Mathf.Pow(throttle, motorFactor) / inertia * Time.deltaTime;
+
+        }
+        else
+        {
+            radsPerSecond += newBrakeForce * Mathf.Pow(brake, brakeFactor) / inertia * Time.deltaTime * -oldSign;
+        }
+
+
         if (Mathf.Sign(radsPerSecond) != oldSign)
         {
             radsPerSecond = 0;
         }
 
-        if (throttle < 0.2f && brake > 0.2f && rb.velocity.magnitude < 0.5f)
-        {
-            radsPerSecond = 0;
-        }
+
 
         if (spring.IsGrounded)
         {
