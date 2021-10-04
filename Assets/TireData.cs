@@ -13,6 +13,49 @@ public class TireData : ScriptableObject
     public float idealLoad = 3500;
     public float maxForwardForce = 3500;
     public float maxLateralForce = 3200;
+    public float maxGripForwardSlip = 0;
+    public float maxGripLateralSlip = 0;
+
+    private void OnValidate()
+    {
+        maxGripForwardSlip = GetForwardHighestValue();
+        maxGripLateralSlip = GetLateralHighestValue();
+    }
+
+    private float GetForwardHighestValue()
+    {
+        var value = 0f;
+        var highestEval = 0f;
+        for (int i = 0; i < 40; i++)
+        {
+            var eval = (float)i / 39f;
+            var point = forwardCurve.Evaluate(eval);
+            if (point > value)
+            {
+                value = point;
+                highestEval = eval;
+            }
+        }
+
+        return highestEval;
+    }
+    private float GetLateralHighestValue()
+    {
+        var value = 0f;
+        var highestEval = 0f;
+        for (int i = 0; i < 40; i++)
+        {
+            var eval = (float)i / 39f;
+            var point = lateralCurve.Evaluate(eval);
+            if (point > value)
+            {
+                value = point;
+                highestEval = eval;
+            }
+        }
+
+        return highestEval;
+    }
 
     public float GetForwardForce(float slip, float load)
     {

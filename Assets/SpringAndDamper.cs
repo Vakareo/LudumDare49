@@ -6,6 +6,9 @@ using UnityEngine;
 public class SpringAndDamper : MonoBehaviour, ICarSpring
 {
     public TireData tire;
+
+    public float bumpPower;
+    public float bumpRate;
     public float preloadForce;
     public float preloadHeight;
     public float maxHeight;
@@ -88,7 +91,8 @@ public class SpringAndDamper : MonoBehaviour, ICarSpring
         }
         if (IsGrounded)
         {
-            springForce = transform.up * Mathf.Max(GetSpringForce(GetSpringDisplacement(CurrentHitDistance)) + GetDamper(velocity) + antiRollForce, 0);
+            springForce = transform.up * Mathf.Max(GetSpringForce(GetSpringDisplacement(CurrentHitDistance)) + GetDamper(velocity) + antiRollForce + (Mathf.Sin(Time.fixedTime * bumpRate * UnityEngine.Random.Range(1f, 4f)) * bumpPower), 0);
+
             if (hit.rigidbody)
             {
                 hit.rigidbody.AddForceAtPosition(-springForce, hitPoint);
@@ -116,6 +120,6 @@ public class SpringAndDamper : MonoBehaviour, ICarSpring
 
     private void OnDrawGizmos()
     {
-        Debug.DrawRay(transform.position, -transform.up * CurrentHitDistance, Color.green);
+        Debug.DrawRay(transform.position, -transform.up * maxHeight, Color.green);
     }
 }

@@ -49,6 +49,22 @@ public class @MyInputs : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Analog"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Pitch"",
+                    ""type"": ""Button"",
+                    ""id"": ""1e282be8-7eab-4b30-8fce-2419e7e524c7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""ToggleGlide"",
+                    ""type"": ""Button"",
+                    ""id"": ""2a6ef121-d33b-45d5-bc20-9fc566d83cd6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -227,6 +243,61 @@ public class @MyInputs : IInputActionCollection, IDisposable
                     ""action"": ""Brake"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""1054ecd5-5a11-4d83-b426-7f60af8f3780"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pitch"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""b5ab0f3e-cda1-454d-8f83-850d8ce7c2b3"",
+                    ""path"": ""<Gamepad>/leftStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pitch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""728543ac-ad80-4f4d-8fa5-c643bac7546b"",
+                    ""path"": ""<Gamepad>/leftStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pitch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2baf08d8-9a34-4f08-ac09-4325a87f5816"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleGlide"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""47e65b7e-d3ee-42c0-b7fe-f348876ded64"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleGlide"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -239,6 +310,8 @@ public class @MyInputs : IInputActionCollection, IDisposable
         m_Base_Horizontal = m_Base.FindAction("Horizontal", throwIfNotFound: true);
         m_Base_Throttle = m_Base.FindAction("Throttle", throwIfNotFound: true);
         m_Base_Brake = m_Base.FindAction("Brake", throwIfNotFound: true);
+        m_Base_Pitch = m_Base.FindAction("Pitch", throwIfNotFound: true);
+        m_Base_ToggleGlide = m_Base.FindAction("ToggleGlide", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -292,6 +365,8 @@ public class @MyInputs : IInputActionCollection, IDisposable
     private readonly InputAction m_Base_Horizontal;
     private readonly InputAction m_Base_Throttle;
     private readonly InputAction m_Base_Brake;
+    private readonly InputAction m_Base_Pitch;
+    private readonly InputAction m_Base_ToggleGlide;
     public struct BaseActions
     {
         private @MyInputs m_Wrapper;
@@ -300,6 +375,8 @@ public class @MyInputs : IInputActionCollection, IDisposable
         public InputAction @Horizontal => m_Wrapper.m_Base_Horizontal;
         public InputAction @Throttle => m_Wrapper.m_Base_Throttle;
         public InputAction @Brake => m_Wrapper.m_Base_Brake;
+        public InputAction @Pitch => m_Wrapper.m_Base_Pitch;
+        public InputAction @ToggleGlide => m_Wrapper.m_Base_ToggleGlide;
         public InputActionMap Get() { return m_Wrapper.m_Base; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -321,6 +398,12 @@ public class @MyInputs : IInputActionCollection, IDisposable
                 @Brake.started -= m_Wrapper.m_BaseActionsCallbackInterface.OnBrake;
                 @Brake.performed -= m_Wrapper.m_BaseActionsCallbackInterface.OnBrake;
                 @Brake.canceled -= m_Wrapper.m_BaseActionsCallbackInterface.OnBrake;
+                @Pitch.started -= m_Wrapper.m_BaseActionsCallbackInterface.OnPitch;
+                @Pitch.performed -= m_Wrapper.m_BaseActionsCallbackInterface.OnPitch;
+                @Pitch.canceled -= m_Wrapper.m_BaseActionsCallbackInterface.OnPitch;
+                @ToggleGlide.started -= m_Wrapper.m_BaseActionsCallbackInterface.OnToggleGlide;
+                @ToggleGlide.performed -= m_Wrapper.m_BaseActionsCallbackInterface.OnToggleGlide;
+                @ToggleGlide.canceled -= m_Wrapper.m_BaseActionsCallbackInterface.OnToggleGlide;
             }
             m_Wrapper.m_BaseActionsCallbackInterface = instance;
             if (instance != null)
@@ -337,6 +420,12 @@ public class @MyInputs : IInputActionCollection, IDisposable
                 @Brake.started += instance.OnBrake;
                 @Brake.performed += instance.OnBrake;
                 @Brake.canceled += instance.OnBrake;
+                @Pitch.started += instance.OnPitch;
+                @Pitch.performed += instance.OnPitch;
+                @Pitch.canceled += instance.OnPitch;
+                @ToggleGlide.started += instance.OnToggleGlide;
+                @ToggleGlide.performed += instance.OnToggleGlide;
+                @ToggleGlide.canceled += instance.OnToggleGlide;
             }
         }
     }
@@ -347,5 +436,7 @@ public class @MyInputs : IInputActionCollection, IDisposable
         void OnHorizontal(InputAction.CallbackContext context);
         void OnThrottle(InputAction.CallbackContext context);
         void OnBrake(InputAction.CallbackContext context);
+        void OnPitch(InputAction.CallbackContext context);
+        void OnToggleGlide(InputAction.CallbackContext context);
     }
 }

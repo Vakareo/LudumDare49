@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[DefaultExecutionOrder(-9999)]
 public class MyInputsObject : MonoBehaviour
 {
     public MyInputs myInputs { get; private set; }

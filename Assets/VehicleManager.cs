@@ -8,12 +8,15 @@ public class VehicleManager : MonoBehaviour
     private ITire[] tires;
     private IInterp[] interps;
     private IInputUpdate[] inputs;
+    private Steering[] steers;
+
     private void Start()
     {
         springs = GetComponentsInChildren<ICarSpring>();
         tires = GetComponentsInChildren<ITire>();
         interps = GetComponentsInChildren<IInterp>();
         inputs = GetComponentsInChildren<IInputUpdate>();
+        steers = GetComponentsInChildren<Steering>();
     }
 
     private void FixedUpdate()
@@ -37,6 +40,10 @@ public class VehicleManager : MonoBehaviour
         for (int i = 0; i < tires.Length; i++)
         {
             tires[i].ApplyForce();
+        }
+        for (int i = 0; i < steers.Length; i++)
+        {
+            steers[i].UpdateSteering();
         }
         for (int i = 0; i < springs.Length; i++)
         {

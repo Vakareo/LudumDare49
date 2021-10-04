@@ -36,6 +36,22 @@
                     "expectedControlType": "Analog",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Pitch",
+                    "type": "Button",
+                    "id": "1e282be8-7eab-4b30-8fce-2419e7e524c7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "ToggleGlide",
+                    "type": "Button",
+                    "id": "2a6ef121-d33b-45d5-bc20-9fc566d83cd6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -212,6 +228,61 @@
                     "processors": "",
                     "groups": "",
                     "action": "Brake",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "1054ecd5-5a11-4d83-b426-7f60af8f3780",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pitch",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "b5ab0f3e-cda1-454d-8f83-850d8ce7c2b3",
+                    "path": "<Gamepad>/leftStick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pitch",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "728543ac-ad80-4f4d-8fa5-c643bac7546b",
+                    "path": "<Gamepad>/leftStick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pitch",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "2baf08d8-9a34-4f08-ac09-4325a87f5816",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleGlide",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "47e65b7e-d3ee-42c0-b7fe-f348876ded64",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleGlide",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
