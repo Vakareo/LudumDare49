@@ -10,6 +10,8 @@ public class SpawnManager : MonoBehaviour
     public List<SpawnLocation> trailerSpawns;
     public List<SpawnLocation> deviceSpawns;
 
+    private StateReset[] resets;
+
     public SpawnLocation customCar;
     public SpawnLocation customTrailer;
     public SpawnLocation customDevice;
@@ -31,6 +33,7 @@ public class SpawnManager : MonoBehaviour
         SetCustom();
         AddSpawnLocation();
         myInputs = FindObjectOfType<MyInputsObject>();
+        resets = FindObjectsOfType<StateReset>();
     }
 
     private void Start()
@@ -81,6 +84,15 @@ public class SpawnManager : MonoBehaviour
         SpawnCar(customCar);
         SpawnTrailer(customTrailer);
         SpawnDevice(customDevice);
+        ResetStates();
+
+    }
+    private void ResetStates()
+    {
+        for (int i = 0; i < resets.Length; i++)
+        {
+            resets[i].Reset();
+        }
     }
 
     private void SpawnCar(SpawnLocation loc)
@@ -110,6 +122,7 @@ public class SpawnManager : MonoBehaviour
         SpawnCar(carSpawns[index]);
         SpawnTrailer(trailerSpawns[index]);
         SpawnDevice(deviceSpawns[index]);
+        ResetStates();
     }
 
 }

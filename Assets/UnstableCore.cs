@@ -46,6 +46,7 @@ public class UnstableCore : MonoBehaviour
     private void Update()
     {
         maxRange += rate * Time.deltaTime;
+        maxRange = Mathf.Clamp(maxRange, 0, 30000);
         for (int i = 0; i < unstables.Length; i++)
         {
             var distance = GetDistance(unstables[i].transform.position);
