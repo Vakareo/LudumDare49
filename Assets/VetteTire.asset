@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f25c7da4079a36439ffb59ac016641d, type: 3}
+  m_Name: VetteTire
+  m_EditorClassIdentifier: 
+  mass: 25
+  radius: 0.344
+  width: 255
+  forwardCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.006500244
+      inSlope: 16.099398
+      outSlope: 16.099398
+      tangentMode: 0
+      weightedMode: 3
+      inWeight: 0
+      outWeight: 0.08302695
+    - serializedVersion: 3
+      time: 1.0013428
+      value: 0.9
+      inSlope: -0.027147159
+      outSlope: -0.027147159
+      tangentMode: 0
+      weightedMode: 3
+      inWeight: 0.8095858
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  lateralCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.006500244
+      inSlope: 8.957129
+      outSlope: 8.957129
+      tangentMode: 0
+      weightedMode: 3
+      inWeight: 0
+      outWeight: 0.14361067
+    - serializedVersion: 3
+      time: 1.0013428
+      value: 0.9
+      inSlope: -0.016612053
+      outSlope: -0.016612053
+      tangentMode: 0
+      weightedMode: 3
+      inWeight: 0.9424419
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  idealLoad: 3500
+  maxForwardForce: 3100
+  maxLateralForce: 2800
+  maxGripForwardSlip: 0.33333334
+  maxGripLateralSlip: 0.30769232
